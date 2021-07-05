@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { View,
     Text,
     StyleSheet,
@@ -7,13 +7,48 @@ import { View,
     TouchableOpacity
  } from 'react-native'
 
+ import firebase from 'firebase/app'
+ import 'firebase/auth';
+ import 'firebase/firestore';
+
 const backText = '< Back';
 
 const SignUpScreen = ({navigation}) => {
 
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+
     const ref_lastNameInput = useRef();
     const ref_emailInput = useRef();
     const ref_passwordInput = useRef();
+
+    function signUpOnSubmit(email, password) {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in 
+            var user = userCredential.user;
+
+            // Save first name as display name for now.
+            user.updateProfile({
+                displayName: userFirstName
+              }).catch((error) => {
+                  console.log('Error saving user\'s displayName: ', error);
+              });
+
+            // Save first and last name to the Firestore.
+            var db = firebase.firestore();
+            db.collection('users').doc(user.id).set({
+                firstName: userFirstName,
+                lastName: userLastName
+            });
+            navigation.navigate('HomeScreen', { username: userFirstName });
+        })
+        .catch((error) => {
+            console.log('Error signing up: ', error.message);
+        });
+    }
 
     return(
         <View style={styles.container}>
@@ -25,26 +60,34 @@ const SignUpScreen = ({navigation}) => {
           <Text style={ styles.header }>Sign up!</Text>
           <View style={ styles.signUpForm }>
             <TextInput style={ styles.input } placeholder="First name"
+                name="firstname"
+                onChangeText={(userFirstName) => setUserFirstName(userFirstName)}
                 autoFocus={ true }
                 returnKeyType="next"
                 onSubmitEditing={() => ref_lastNameInput.current.focus()}
                 blurOnSubmit={false} />
             <TextInput style={ styles.input } placeholder="Last name"
+                name="lastname"
+                onChangeText={(userLastName) => setUserLastName(userLastName)}
                 returnKeyType="next"
                 onSubmitEditing={() => ref_emailInput.current.focus()}
                 ref={ref_lastNameInput}
                 blurOnSubmit={false} />
             <TextInput style={ styles.input } placeholder="Email"
+                name="email"
+                onChangeText={(userEmail) => setUserEmail(userEmail)}
                 returnKeyType="next"
                 onSubmitEditing={() => ref_passwordInput.current.focus()}
                 ref={ref_emailInput}
                 blurOnSubmit={false} />
             <TextInput style={ styles.input } placeholder="Password"
+                name="password"
+                onChangeText={(userPassword) => setUserPassword(userPassword)}
                 ref={ref_passwordInput} />
           </View>
           <TouchableOpacity
             style={ [styles.button, styles.signupButton] }
-            onPress={ () => alert('Signing up!') }>
+            onPress={ () => signUpOnSubmit(userEmail, userPassword) }>
                 <Text style={ styles.signupText }>Sign Up</Text>
           </TouchableOpacity>
         </View>

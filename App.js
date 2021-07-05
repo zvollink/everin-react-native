@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 
@@ -17,8 +16,8 @@ const firebaseConfig = {
   projectId: 'everin-b966a'
 };
 
-// Avoid initializing app more than once, other it will error.
-if (firebase.apps.length === 0) {
+// Avoid initializing app more than once, otherwise it will error.
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
