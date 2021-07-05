@@ -17,6 +17,8 @@ const SignInScreen = ({navigation}) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
+    const [errorText, setErrorText] = useState('');
+
     const ref_passwordInput = useRef();
 
     function signInOnSubmit(email, password) {
@@ -28,6 +30,7 @@ const SignInScreen = ({navigation}) => {
         })
         .catch((error) => {
             console.log('Error signing up: ', error.message);
+            setErrorText(error.message);
         });
     }
 
@@ -39,6 +42,9 @@ const SignInScreen = ({navigation}) => {
               <Text style={styles.backText}>{backText}</Text>
           </TouchableOpacity>
           <Text style={ styles.header }>Login</Text>
+          <View>
+              <Text style={ styles.errorText }>{ errorText }</Text>
+          </View>
           <View style={ styles.signInForm }>
             <TextInput style={ styles.input } placeholder="Email"
                 name="email"
@@ -64,8 +70,10 @@ const SignInScreen = ({navigation}) => {
 export default SignInScreen;
 
 const {height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const topSpacing = height * .15;
 const formHeight = height * .17;
+const errorWidth = width * .7;
 
 const styles = StyleSheet.create({
     container: {
@@ -119,5 +127,11 @@ const styles = StyleSheet.create({
     signInText: {
         color: 'white',
         fontWeight: 'bold'
+    },
+    errorText: {
+        color: 'red',
+        flexWrap: 'wrap',
+        textAlign: 'center',
+        width: errorWidth
     }
 });

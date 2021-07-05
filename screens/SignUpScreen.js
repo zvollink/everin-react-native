@@ -20,6 +20,8 @@ const SignUpScreen = ({navigation}) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
+    const [errorText, setErrorText] = useState('');
+
     const ref_lastNameInput = useRef();
     const ref_emailInput = useRef();
     const ref_passwordInput = useRef();
@@ -47,6 +49,7 @@ const SignUpScreen = ({navigation}) => {
         })
         .catch((error) => {
             console.log('Error signing up: ', error.message);
+            setErrorText(error.message);
         });
     }
 
@@ -58,6 +61,9 @@ const SignUpScreen = ({navigation}) => {
               <Text style={styles.backText}>{backText}</Text>
           </TouchableOpacity>
           <Text style={ styles.header }>Sign up!</Text>
+          <View>
+              <Text style={ styles.errorText }>{ errorText }</Text>
+          </View>
           <View style={ styles.signUpForm }>
             <TextInput style={ styles.input } placeholder="First name"
                 name="firstname"
@@ -97,8 +103,10 @@ const SignUpScreen = ({navigation}) => {
 export default SignUpScreen;
 
 const {height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const topSpacing = height * .15;
 const formHeight = height * .33;
+const errorWidth = width * .7;
 
 const styles = StyleSheet.create({
     container: {
@@ -152,5 +160,11 @@ const styles = StyleSheet.create({
     signupText: {
         color: 'white',
         fontWeight: 'bold'
+    },
+    errorText: {
+        color: 'red',
+        textAlign: 'center',
+        flexWrap: 'wrap',
+        width: errorWidth
     }
 });
