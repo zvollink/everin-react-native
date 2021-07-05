@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View,
+    Text,
+    Button,
+    StyleSheet,
+    TextInput
+ } from 'react-native';
 
 const SignInScreen = () => {
     return(
         <View style={styles.container}>
           <Text>SignInScreen</Text>
-          <Button title="Click here"
-             onPress={() => alert('Button clicked!')} />
+          <TextInput style={ styles.input } placeholder="Username or email" />
         </View>
     );
 };
@@ -18,5 +22,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    input: {
+        width: 334,
+        height: 50,
+        borderWidth: 1,
+        //borderColor: 'lightgray'
     }
 });

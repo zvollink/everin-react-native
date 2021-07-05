@@ -1,0 +1,24 @@
+NEXT STEPS
+[_] Keep fields from auto-completing (eg. typing 'hmars.' converts to 'games.').
+[_] Sketch storyboard of what the general app screen flow should look like before going much further.
+
+TODO
+[_] Need better email and password validation in sign up flow.
+[_] Build out Forgot Password option.
+
+BUGS
+[_] Back button shifts up along with rest of view out of sight
+    as keyboard comes into view (signup and login).
+
+NICE TO HAVES
+[_] Auto-focus first input on sign up and login screens.
+      ** Note: I've already attempted this and it causes an issue with the
+         code that moves he view up as they keyboard enters the screen.
+         
+IDEAS FOR THE APP
+[_] A place where you can keep track of cool places you've visited.
+[_] You should be able to add pictures, journal about it, add location, tag
+    friends, and share with people.
+[_] Perhaps there's a "news feed" that only shows your friends latest posts.
+[_] News feed could eventually show nearby EverIn's.
+[_] Ability to add and have friends.
